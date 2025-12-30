@@ -1,3 +1,17 @@
+// Dynamically load CSS to ensure it loads properly
+const loadCSS = () => {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'style/style.css';
+  document.head.appendChild(link);
+};
+
+// Initialize CSS loading and data fetching
+const init = () => {
+  loadCSS();
+  fetchData();
+};
+
 // Import the data to customize and insert them into page
 const fetchData = () => {
   fetch("customize.json")
@@ -446,5 +460,5 @@ const animationTimeline = () => {
   });
 };
 
-// Run fetch and animation in sequence
-fetchData();
+// Run initialization (CSS loading and data fetching) in sequence
+init();
