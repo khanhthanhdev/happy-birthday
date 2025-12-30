@@ -18,10 +18,82 @@ const fetchData = () => {
         // Check if the iteration is over
         // Run amimation if so
         if ( dataArr.length === dataArr.indexOf(customData) + 1 ) {
+          initAudio();
           animationTimeline();
         } 
       });
     });
+};
+
+// Audio handling for Vercel deployment
+const initAudio = () => {
+  const audio = document.getElementById('birthdayAudio');
+  
+  if (!audio) return;
+  
+  // Function to play audio
+  const playAudio = () => {
+    audio.play().catch(error => {
+      console.log('Audio autoplay failed:', error);
+      // Create a play button for user interaction
+      createPlayButton();
+    });
+  };
+  
+  // Create play button if autoplay fails
+  const createPlayButton = () => {
+    const playButton = document.createElement('button');
+    playButton.innerHTML = '🎵 Play Music';
+    playButton.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+    `;
+    
+    playButton.onmouseover = () => {
+      playButton.style.transform = 'scale(1.05)';
+      playButton.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
+    };
+    
+    playButton.onmouseout = () => {
+      playButton.style.transform = 'scale(1)';
+      playButton.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+    };
+    
+    playButton.onclick = () => {
+      audio.play();
+      playButton.style.display = 'none';
+    };
+    
+    document.body.appendChild(playButton);
+  };
+  
+  // Try to play audio on first user interaction
+  const handleFirstInteraction = () => {
+    playAudio();
+    document.removeEventListener('click', handleFirstInteraction);
+    document.removeEventListener('touchstart', handleFirstInteraction);
+    document.removeEventListener('keydown', handleFirstInteraction);
+  };
+  
+  // Add event listeners for user interaction
+  document.addEventListener('click', handleFirstInteraction);
+  document.addEventListener('touchstart', handleFirstInteraction);
+  document.addEventListener('keydown', handleFirstInteraction);
+  
+  // Try autoplay (will work on some browsers)
+  playAudio();
 };
 
 // Animation Timeline
