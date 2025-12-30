@@ -98,34 +98,106 @@ const animationTimeline = () => {
       },
       "+=2"
     )
+    // Messaging app animation sequence
     .from(".four", 0.7, {
-      scale: 0.2,
-      opacity: 0
+      scale: 0.8,
+      opacity: 0,
+      rotationY: -15
     })
-    .from(".fake-btn", 0.3, {
-      scale: 0.2,
-      opacity: 0
-    })
+    .from(".phone-frame", 0.5, {
+      y: 50,
+      ease: Back.easeOut
+    }, "-=0.3")
+    // Birthday notification banner slides down
+    .to(".notification-banner", 0.6, {
+      opacity: 1,
+      y: 0,
+      ease: Back.easeOut.config(1.5)
+    }, "+=0.3")
+    // First received message slides in
+    .to(".message-wrapper.received:nth-of-type(1)", 0.4, {
+      opacity: 1,
+      y: 0,
+      ease: Back.easeOut.config(1.2)
+    }, "+=0.5")
+    // Second received message slides in
+    .to(".message-wrapper.received:nth-of-type(2)", 0.4, {
+      opacity: 1,
+      y: 0,
+      ease: Back.easeOut.config(1.2)
+    }, "+=0.5")
+    // Typing indicator appears
+    .to(".typing-indicator", 0.3, {
+      opacity: 1,
+      y: 0
+    }, "+=0.4")
+    // Typing indicator disappears and sent message appears
+    .to(".typing-indicator", 0.2, {
+      opacity: 0,
+      y: -10
+    }, "+=1.5")
+    .to(".message-wrapper.sent", 0.4, {
+      opacity: 1,
+      y: 0,
+      ease: Back.easeOut.config(1.2)
+    }, "-=0.1")
+    // Typing effect for the birthday message
     .staggerTo(
       ".hbd-chatbox span",
-      0.5,
+      0.03,
       {
         visibility: "visible"
       },
-      0.05
+      0.03,
+      "-=0.2"
     )
-    .to(".fake-btn", 0.1, {
-      backgroundColor: "rgb(127, 206, 248)"
+    // Send button pulse effect
+    .to(".send-btn", 0.2, {
+      scale: 1.2,
+      ease: Back.easeOut
     })
+    .to(".send-btn", 0.2, {
+      scale: 1
+    })
+    // Message status appears (delivered)
+    .to(".message-status", 0.3, {
+      opacity: 1
+    })
+    // Reactions pop in one by one
+    .to(".reaction-container", 0.3, {
+      opacity: 1,
+      scale: 1
+    }, "+=0.3")
+    .staggerTo(
+      ".reaction",
+      0.4,
+      {
+        scale: 1.3,
+        rotation: 360,
+        ease: Back.easeOut.config(2)
+      },
+      0.15
+    )
+    .staggerTo(
+      ".reaction",
+      0.2,
+      {
+        scale: 1
+      },
+      0.15,
+      "-=0.4"
+    )
+    // Phone zooms out and fades
     .to(
       ".four",
-      0.5,
+      0.6,
       {
-        scale: 0.2,
+        scale: 0.3,
         opacity: 0,
-        y: -150
+        y: -200,
+        rotationY: 15
       },
-      "+=0.7"
+      "+=1.2"
     )
     .from(".idea-1", 0.7, ideaTextTrans)
     .to(".idea-1", 0.7, ideaTextTransLeave, "+=1.5")
